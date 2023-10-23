@@ -8,6 +8,9 @@ export class User extends Document {
 
   @Prop()
   email: string;
+
+  @Prop()
+  status: 'pending' | 'active' | 'blocked';
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
