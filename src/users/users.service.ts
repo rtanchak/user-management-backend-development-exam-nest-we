@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from './user.model';
+import { User } from './users.model';
 import { UpdateUsersStatusesDto } from './dto/update-usersStatuses.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    ) {}
   
   /**
    * Find all users with pagination.
@@ -95,4 +97,5 @@ export class UserService {
       throw error;
     }
   }
+
 }

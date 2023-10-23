@@ -11,6 +11,9 @@ export class User extends Document {
 
   @Prop()
   status: 'pending' | 'active' | 'blocked';
+
+  @Prop()
+  groupId: string; 
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
