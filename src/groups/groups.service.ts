@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { Group } from './group.model';
 import { User } from '../users/users.model';
 import { ERROR_MESSAGES, GROUP_STATUSES } from '../constants';
+import { RemoveUserFromGroupDto } from './dto/remove-userFromGroup.dto';
 
 @Injectable()
 export class GroupService {
@@ -22,7 +23,8 @@ export class GroupService {
    * @param groupId - ID of the group from which the user will be removed.
    * @param userId - ID of the user to be removed from the group.
    */
-  async removeUserFromGroup(groupId: string, userId: string): Promise<void> {
+  async removeUserFromGroup(dto: RemoveUserFromGroupDto): Promise<void> {
+    const { groupId, userId } = dto;
     try {
       const group = await this.groupModel.findById(groupId);
       if (!group) {
@@ -42,6 +44,7 @@ export class GroupService {
 
       // Update the group status in the database
       await this.groupModel.findByIdAndUpdate(groupId, { status: groupStatus });
+
     } catch (error) {
       console.error(`${ERROR_MESSAGES.ERROR_REMOVING_USER_FROM_GROUP}: ${error.message}`);
       throw error;

@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './users.model';
 import { UpdateUsersStatusesDto } from './dto/update-usersStatuses.dto';
+import { ERROR_MESSAGES } from 'src/constants';
 
 @Injectable()
 export class UserService {
@@ -74,7 +75,7 @@ export class UserService {
 
             // If the update in the database fails, throw an error to trigger a rollback
             if (!result) {
-              throw new Error(`Failed to update user with ID ${_id}`);
+              throw new Error(ERROR_MESSAGES.UPDATE_USER_FAILED(_id));
             }
 
             return result;
@@ -88,11 +89,11 @@ export class UserService {
         // If an error occurs aborting the transaction
         await session.abortTransaction();
         session.endSession();
-        console.error(`[updateUsersStatuses] error updating users: ${error.message}`);
+        console.error(`[${ERROR_MESSAGES.ERROR_UPDATING_USERS()}] ${error.message}`);
         throw error;
       }
     } catch (error) {
-      console.error(`[updateUsersStatuses] error starting database session: ${error.message}`);
+      console.error(`[${ERROR_MESSAGES.ERROR_STARTING_SESSION()}] ${error.message}`);
       // Rethrow the error
       throw error;
     }

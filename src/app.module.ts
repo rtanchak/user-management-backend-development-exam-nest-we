@@ -4,7 +4,13 @@ import { UserModule } from './users/users.module';
 import { GroupsModule } from './groups/groups.module';
 
 @Module({
-  imports: [UserModule, GroupsModule, MongooseModule.forRoot('mongodb://localhost/nestjs-mongo')],
+  imports: [
+    UserModule,
+    GroupsModule,
+    MongooseModule.forRoot(
+      `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`
+    )
+  ],
   controllers: [],
   providers: [],
 })
